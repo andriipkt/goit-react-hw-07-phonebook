@@ -9,14 +9,19 @@ import { selectContacts, selectFilter } from 'redux/selectors';
 import {
   addContactSlice,
   deleteContactSlice,
-} from 'redux/contactsSlice/contactsSlice';
+} from 'redux/contacts/contactsSlice';
 import { addFilterSlice } from 'redux/filterSlice/filterSlice';
-import { getContacts } from 'redux/tools/contactsAPI';
+import { useEffect } from 'react';
+import { fetchContacts } from 'redux/contacts/contactsOperations';
 
 export function App() {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
   const filterValue = useSelector(selectFilter);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const addContact = (name, number) => {
     const isNameExists = contacts.some(
@@ -45,7 +50,6 @@ export function App() {
   };
 
   const filteredContacts = getFilteredContacts();
-  console.log(getContacts());
 
   return (
     <>
