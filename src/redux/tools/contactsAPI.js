@@ -12,3 +12,15 @@ export const getContacts = async () => {
     console.error(error);
   }
 };
+
+export const deleteContact = async contactID => {
+  try {
+    const response = await fetch(`${BASE_URL}/${contactID}`, {
+      method: 'DELETE',
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

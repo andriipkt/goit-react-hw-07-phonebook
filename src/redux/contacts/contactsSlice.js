@@ -1,6 +1,22 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 import { fetchContacts } from './contactsOperations';
 
+const handlePending = (state, action) => {
+  return {
+    ...state,
+    isLoading: true,
+    error: null,
+  };
+};
+
+const handleRejected = (state, action) => {
+  return {
+    ...state,
+    error: action.payload,
+    isLoading: false,
+  };
+};
+
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
@@ -8,31 +24,44 @@ const contactsSlice = createSlice({
     isLoading: false,
     error: null,
   },
-  extraReducers: {
-    [fetchContacts.pending]: (state, action) => {
-      return {
-        ...state,
-        isLoading: true,
-        error: null,
-      };
-    },
 
-    [fetchContacts.fulfilled]: (state, action) => {
-      return {
-        ...state,
-        items: action.payload,
-        isLoading: false,
-      };
-    },
-
-    [fetchContacts.rejected]: (state, action) => {
-      return {
-        ...state,
-        error: action.payload,
-        isLoading: false,
-      };
-    },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchContacts.pending, handlePending)
+      .addCase(fetchContacts.fulfilled, (state, action) => {
+        return {
+          ...state,
+          items: action.payload,
+          isLoading: false,
+        };
+      })
+      .addCase(fetchContacts.rejected, handleRejected);
   },
+  // extraReducers: {
+  //   [fetchContacts.pending]: (state, action) => {
+  //     return {
+  //       ...state,
+  //       isLoading: true,
+  //       error: null,
+  //     };
+  //   },
+
+  //   [fetchContacts.fulfilled]: (state, action) => {
+  //     return {
+  //       ...state,
+  //       items: action.payload,
+  //       isLoading: false,
+  //     };
+  //   },
+
+  //   [fetchContacts.rejected]: (state, action) => {
+  //     return {
+  //       ...state,
+  //       error: action.payload,
+  //       isLoading: false,
+  //     };
+  //   },
+  // },
 
   reducers: {
     addContactSlice: {
