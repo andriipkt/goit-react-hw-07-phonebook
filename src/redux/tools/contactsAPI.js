@@ -1,5 +1,4 @@
 import axios from 'axios';
-// const BASE_URL = 'https://6537e423a543859d1bb0fe2d.mockapi.io/contacts';
 
 axios.defaults.baseURL = 'https://6537e423a543859d1bb0fe2d.mockapi.io/contacts';
 

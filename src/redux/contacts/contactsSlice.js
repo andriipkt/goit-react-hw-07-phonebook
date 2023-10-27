@@ -22,7 +22,6 @@ const contactsSlice = createSlice({
       .addCase(fetchContactsOp.fulfilled, handleFulfilledFetch)
       .addCase(addContactOp.fulfilled, handleFulfilledAdd)
       .addCase(deleteContactOp.fulfilled, handleFulfilledDelete)
-      // .addCase(deleteContactOp.fulfilled, handleFulfilledDelete)
       .addMatcher(action => action.type.endsWith('/pending'), handlePending)
       .addMatcher(action => action.type.endsWith('/rejected'), handleRejected)
       .addMatcher(
@@ -33,7 +32,3 @@ const contactsSlice = createSlice({
 });
 
 export const reducerContactsSlice = contactsSlice.reducer;
-
-/* не сетиться ерор 
-як деліте бачить контакт слайс 
-проблеми з рендером після деліт */

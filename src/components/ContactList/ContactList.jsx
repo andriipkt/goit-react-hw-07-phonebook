@@ -1,16 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import css from './ContactList.module.css';
-import { selectContacts, selectFilter } from 'redux/selectors';
-import { deleteContactOp } from 'redux/contacts/operations';
+import { selectContacts, selectFilter, selectIsLoading } from 'redux/selectors';
+import { Oval } from 'react-loader-spinner';
+import ContactItem from './ContactItem/ContactItem';
 
 const ContactList = () => {
   const contacts = useSelector(selectContacts);
   const filterValue = useSelector(selectFilter);
-  const dispatch = useDispatch();
-
-  const handleDeleteContact = contactId => {
-    dispatch(deleteContactOp(contactId));
-  };
 
   const getFilteredContacts = () => {
     return contacts.filter(contact =>
@@ -21,17 +17,13 @@ const ContactList = () => {
   const filteredContacts = getFilteredContacts();
   return (
     <ul className={`list-group list-group-flush ${css.contactList}`}>
-      {filteredContacts.map(contact => (
-        <li key={contact.id} className={`list-group-item ${css.contactItem}`}>
-          {contact.name}: {contact.number}
-          <button
-            className={`btn btn-secondary ${css.contactBtn}`}
-            onClick={() => handleDeleteContact(contact.id)}
-          >
-            Delete
-          </button>
-        </li>
-      ))}
+      {filteredContacts.length > 0 ? (
+        filteredContacts.map(contactEl => (
+          <ContactItem key={contactEl.id} contact={contactEl} />
+        ))
+      ) : (
+        <Oval wrapperStyle={{ marginTop: '40px', marginLeft: '60px' }} />
+      )}
     </ul>
   );
 };
