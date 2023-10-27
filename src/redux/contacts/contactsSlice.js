@@ -1,13 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  addContactOp,
-  /*   deleteContactOp, */
-  fetchContactsOp,
-} from './operations';
+import { addContactOp, deleteContactOp, fetchContactsOp } from './operations';
 import {
   handleFulfilled,
   handleFulfilledAdd,
-  handleFulfilledfetch,
+  handleFulfilledDelete,
+  handleFulfilledFetch,
   handlePending,
   handleRejected,
 } from './helpers';
@@ -22,8 +19,9 @@ const contactsSlice = createSlice({
 
   extraReducers: builder => {
     builder
-      .addCase(fetchContactsOp.fulfilled, handleFulfilledfetch)
+      .addCase(fetchContactsOp.fulfilled, handleFulfilledFetch)
       .addCase(addContactOp.fulfilled, handleFulfilledAdd)
+      .addCase(deleteContactOp.fulfilled, handleFulfilledDelete)
       // .addCase(deleteContactOp.fulfilled, handleFulfilledDelete)
       .addMatcher(action => action.type.endsWith('/pending'), handlePending)
       .addMatcher(action => action.type.endsWith('/rejected'), handleRejected)
