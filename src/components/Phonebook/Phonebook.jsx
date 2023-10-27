@@ -4,6 +4,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import { addContactOp } from 'redux/contacts/operations';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContacts } from 'redux/selectors';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 function Phonebook() {
   const [name, setName] = useState('');
@@ -34,7 +35,7 @@ function Phonebook() {
     );
 
     if (isNameExists) {
-      return alert(`${name} is already in contacts.`);
+      return Notify.failure(`${name} is already in contacts.`);
     }
 
     const newContact = {
@@ -44,6 +45,7 @@ function Phonebook() {
     };
 
     dispatch(addContactOp(newContact));
+    Notify.success('New contact added!');
   };
 
   const handleSubmit = event => {

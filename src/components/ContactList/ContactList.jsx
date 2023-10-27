@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import css from './ContactList.module.css';
-import { selectContacts, selectFilter, selectIsLoading } from 'redux/selectors';
+import { selectContacts, selectFilter } from 'redux/selectors';
 import { Oval } from 'react-loader-spinner';
 import ContactItem from './ContactItem/ContactItem';
 

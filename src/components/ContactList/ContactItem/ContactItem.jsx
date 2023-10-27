@@ -3,6 +3,7 @@ import { Oval } from 'react-loader-spinner';
 import css from '../ContactList.module.css';
 import { useDispatch } from 'react-redux';
 import { deleteContactOp } from 'redux/contacts/operations';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const ContactItem = ({ contact }) => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const ContactItem = ({ contact }) => {
   const handleDeleteContact = contactId => {
     setIsLoadingEl(true);
     dispatch(deleteContactOp(contactId));
+    Notify.success('Contact deleted!');
   };
 
   return (
