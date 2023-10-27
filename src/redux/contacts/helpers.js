@@ -42,8 +42,9 @@ export const handleFulfilledAdd = (state, action) => {
 
 export const handleFulfilledDelete = (state, action) => {
   console.log('delete fulfiled', action);
-  state.items = state.items.filter(contact => contact.id !== action.payload.id);
-  // return {
-  //   ...state,
-  // };
+  // state.items = state.items.filter(contact => contact.id !== action.payload.id);
+  return {
+    ...state,
+    items: state.items.filter(contact => contact.id !== action.payload.id),
+  };
 };
