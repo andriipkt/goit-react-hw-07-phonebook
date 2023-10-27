@@ -6,13 +6,15 @@ import Filter from './Filter/Filter';
 import ContactList from './ContactList/ContactList';
 
 import { selectContacts, selectFilter } from 'redux/selectors';
-import {
-  addContactSlice,
-  deleteContactSlice,
-} from 'redux/contacts/contactsSlice';
-import { addFilterSlice } from 'redux/filterSlice/filterSlice';
+import {} from 'redux/contacts/contactsSlice';
 import { useEffect } from 'react';
-import { fetchContacts } from 'redux/contacts/contactsOperations';
+import {
+  addContactOp,
+  deleteContactOp,
+  fetchContactsOp,
+} from 'redux/contacts/contactsOperations';
+import { addFilterSlice } from 'redux/filter/filterSlice';
+import { nanoid } from '@reduxjs/toolkit';
 
 export function App() {
   const dispatch = useDispatch();
@@ -20,7 +22,7 @@ export function App() {
   const filterValue = useSelector(selectFilter);
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(fetchContactsOp());
   }, [dispatch]);
 
   const addContact = (name, number) => {
@@ -32,11 +34,18 @@ export function App() {
       return alert(`${name} is already in contacts.`);
     }
 
-    dispatch(addContactSlice({ name, number }));
+    const newContact = {
+      name,
+      number,
+      id: nanoid(),
+    };
+    console.log('APPCONTACT', newContact);
+    dispatch(addContactOp(newContact));
   };
 
   const hadnleDeleteContact = contactId => {
-    dispatch(deleteContactSlice(contactId));
+    dispatch(deleteContactOp(contactId));
+    dispatch(fetchContactsOp());
   };
 
   const handleFilter = event => {
