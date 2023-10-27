@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import css from './Phonebook.module.css';
-import PropTypes from 'prop-types';
+import { nanoid } from '@reduxjs/toolkit';
+import { addContactOp } from 'redux/contacts/operations';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts } from 'redux/selectors';
 
-function Phonebook({ addContact }) {
+function Phonebook() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -21,6 +26,24 @@ function Phonebook({ addContact }) {
       default:
         return 'invalid name';
     }
+  };
+
+  const addContact = (name, number) => {
+    const isNameExists = contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (isNameExists) {
+      return alert(`${name} is already in contacts.`);
+    }
+
+    const newContact = {
+      name,
+      number,
+      id: nanoid(),
+    };
+
+    dispatch(addContactOp(newContact));
   };
 
   const handleSubmit = event => {
@@ -72,7 +95,3 @@ function Phonebook({ addContact }) {
 }
 
 export default Phonebook;
-
-Phonebook.propTypes = {
-  addContact: PropTypes.func.isRequired,
-};

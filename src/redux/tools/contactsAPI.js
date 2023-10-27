@@ -1,8 +1,6 @@
 const BASE_URL = 'https://6537e423a543859d1bb0fe2d.mockapi.io/contacts';
 
-// /contacts/:id
-
-export const getContacts = async () => {
+export const getContactsAsync = async () => {
   try {
     const response = await fetch(BASE_URL, {
       method: 'GET',

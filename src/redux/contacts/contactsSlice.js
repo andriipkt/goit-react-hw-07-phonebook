@@ -1,25 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   addContactOp,
-  deleteContactOp,
+  /*   deleteContactOp, */
   fetchContactsOp,
-} from './contactsOperations';
-
-const handlePending = (state, action) => {
-  return {
-    ...state,
-    isLoading: true,
-    error: null,
-  };
-};
-
-const handleRejected = (state, action) => {
-  return {
-    ...state,
-    error: action.payload,
-    isLoading: false,
-  };
-};
+} from './operations';
+import {
+  handleFulfilled,
+  handleFulfilledAdd,
+  handleFulfilledfetch,
+  handlePending,
+  handleRejected,
+} from './helpers';
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -31,33 +22,20 @@ const contactsSlice = createSlice({
 
   extraReducers: builder => {
     builder
-      .addCase(fetchContactsOp.pending, handlePending)
-      .addCase(fetchContactsOp.fulfilled, (state, action) => {
-        return {
-          ...state,
-          items: action.payload,
-          isLoading: false,
-        };
-      })
-      .addCase(fetchContactsOp.rejected, handleRejected)
-      .addCase(addContactOp.pending, handlePending)
-      .addCase(addContactOp.fulfilled, (state, action) => {
-        console.log('action', action);
-        return {
-          ...state,
-          items: [...state.items, action.payload],
-          isLoading: false,
-        };
-      })
-      .addCase(addContactOp.rejected, handleRejected)
-      .addCase(deleteContactOp.pending, handlePending)
-      .addCase(deleteContactOp.fulfilled, (state, action) => {
-        return {
-          ...state,
-        };
-      })
-      .addCase(deleteContactOp.rejected, handleRejected);
+      .addCase(fetchContactsOp.fulfilled, handleFulfilledfetch)
+      .addCase(addContactOp.fulfilled, handleFulfilledAdd)
+      // .addCase(deleteContactOp.fulfilled, handleFulfilledDelete)
+      .addMatcher(action => action.type.endsWith('/pending'), handlePending)
+      .addMatcher(action => action.type.endsWith('/rejected'), handleRejected)
+      .addMatcher(
+        action => action.type.endsWith('/fulfilled'),
+        handleFulfilled
+      );
   },
 });
 
 export const reducerContactsSlice = contactsSlice.reducer;
+
+/* не сетиться ерор 
+як деліте бачить контакт слайс 
+проблеми з рендером після деліт */
