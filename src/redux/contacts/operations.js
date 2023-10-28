@@ -4,6 +4,7 @@ import {
   deleteContactAsync,
   getContactsAsync,
 } from 'redux/tools/contactsAPI';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 export const fetchContactsOp = createAsyncThunk(
   'contacts/fetchAll',
@@ -22,7 +23,7 @@ export const addContactOp = createAsyncThunk(
   async (newContact, { rejectWithValue }) => {
     try {
       const response = await addContactAsync(newContact);
-
+      Notify.success('New contact added!');
       return response;
     } catch (error) {
       return rejectWithValue(error);
@@ -35,7 +36,7 @@ export const deleteContactOp = createAsyncThunk(
   async (contactID, { rejectWithValue }) => {
     try {
       const response = await deleteContactAsync(contactID);
-
+      Notify.success('Contact deleted!');
       return response;
     } catch (error) {
       return rejectWithValue(error);

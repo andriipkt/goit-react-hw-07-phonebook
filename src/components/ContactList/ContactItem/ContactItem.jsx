@@ -3,7 +3,6 @@ import { Oval } from 'react-loader-spinner';
 import css from '../ContactList.module.css';
 import { useDispatch } from 'react-redux';
 import { deleteContactOp } from 'redux/contacts/operations';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const ContactItem = ({ contact }) => {
   const dispatch = useDispatch();
@@ -13,24 +12,21 @@ const ContactItem = ({ contact }) => {
   const handleDeleteContact = contactId => {
     setIsLoadingEl(true);
     dispatch(deleteContactOp(contactId));
-    Notify.success('Contact deleted!');
   };
 
   return (
     <li key={contact.id} className={`list-group-item ${css.contactItem}`}>
-      <>
-        {contact.name}: {contact.number}
-        {isLoadingEl ? (
-          <Oval width={30} height={30} wrapperStyle={{ marginRight: '22px' }} />
-        ) : (
-          <button
-            className={`btn btn-secondary ${css.contactBtn}`}
-            onClick={() => handleDeleteContact(contact.id)}
-          >
-            Delete
-          </button>
-        )}
-      </>
+      {contact.name}: {contact.number}
+      {isLoadingEl ? (
+        <Oval width={30} height={30} wrapperStyle={{ marginRight: '22px' }} />
+      ) : (
+        <button
+          className={`btn btn-secondary ${css.contactBtn}`}
+          onClick={() => handleDeleteContact(contact.id)}
+        >
+          Delete
+        </button>
+      )}
     </li>
   );
 };

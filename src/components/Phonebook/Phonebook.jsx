@@ -45,7 +45,6 @@ function Phonebook() {
     };
 
     dispatch(addContactOp(newContact));
-    Notify.success('New contact added!');
   };
 
   const handleSubmit = event => {
